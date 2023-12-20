@@ -25,20 +25,9 @@ const client = contentful.createClient({
 });
 
 // connect to contentful management
-const clientManagement = contentfulManagament.createClient(  
-  {
-    // This is the access token for this space. Normally you get the token in the Contentful web app
-    accessToken: process.env.cmaToken ? process.env.cmaToken : credentials.cmaToken,
-  },
-  {
-    type: 'plain',
-    defaults: {
-      spaceId: process.env.space ? process.env.space : credentials.space,
-      environmentId: 'master',
-    },
-  }
-);
-
+const clientManagement = contentfulManagament.createClient({
+  accessToken: process.env.cmaToken ? process.env.cmaToken : credentials.cmaToken
+});
 
 app.use(express.static(`${__dirname}/views`)); // html
 app.use(express.static(`${__dirname}/public`)); // js, css, images
@@ -66,19 +55,17 @@ async function checkCountry(countryInput="", id="") {
   
   if(entries.total != 0) {
 
-    // TODO: call management
-    console.log(clientManagement.entry)
-    clientManagement.getEntry({entryId: id})
-    .then(async (entry) => {
-      console.log('entry.fields before', entry)
+    clientManagement.getSpace(credentials.space)
+    .then((space) => space.getEnvironment('master'))
+    .then((environment) => environment.getEntry(id))
+    .then((entry) => {
       entry.fields.userAnswered['en-US'] = true;
-      console.log('entry.fields after', entry.fields)
-      return entry;
-      // return await clientManagement.entry.update({entryId: id})
+      return entry.update();
     })
-    .then((res) => console.log(`entry ${res.sys.id} updated.`))
-    .catch(console.error)
-
+    .then((entry) => {
+      entry.publish();
+    })
+    .catch(console.error);
     
     return true;
   } else {
