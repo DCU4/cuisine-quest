@@ -29,11 +29,16 @@
       </div>
       <div class="tips-list">
         <ul>
-          <li class="tip-1">This dish uses garlic seaseoning</li>
+          <% tips.forEach((tip, i) => { %>
+          <li class="tip tip-<%- i -%>"><%- tip -%></li>
+          <% }); %>
         </ul>
       </div>
+      <div class="game-over">
+        <h2>Your daily game is complete</h2>
+        <p>You can play again in around <span>24 hours</span></p>
+      </div>
     </main>
-
     <script src="main.js" async defer></script>
   </body>
 </html>
