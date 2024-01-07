@@ -49,3 +49,9 @@ Track ones answered with checkbox
 
 5 guesses 
 
+Tips based on user guesses - like wordle/worldle
+
+georgaphy or food quiz?
+
+
+ingredients as tips
