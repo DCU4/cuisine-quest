@@ -80,12 +80,15 @@ app.get('/', async (req, res) => {
     const data = await getRandomDish();
     console.log(data);
     if(data) {
+      const tips = [];
       const randomIndex = Math.floor(Math.random() * data.length);
+      const { tipOne, tipTwo, tipThree } = data[randomIndex].fields;
       const img = data[randomIndex].fields.image;
       const id = data[randomIndex].sys.id;
+      tips.push(tipOne, tipTwo, tipThree)
 
       // TODO: send tips
-      res.render('index', {img: img, id: id})
+      res.render('index', {img: img, id: id, tips: tips})
     } else {
       res.render('index', {img: '', id: ''})
     }
