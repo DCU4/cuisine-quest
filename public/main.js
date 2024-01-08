@@ -13,11 +13,21 @@ const handleIncorrectAnswers = (n) => {
   }
 }
 
-const handleEndGame = () => {
+const handleEndGame = (onLoad = false) => {
   setCookie('game-over', true, 1);
+  const dishTitle = document.querySelector('.dish-title');
+  dishTitle.classList.add('showing');
   const playAgainTime = getCookie('play-again-time');
-  gameOverWrapper.classList.add('show');
-  playAgainTimeWrapper.innerHTML = playAgainTime;
+
+  if(onLoad){
+    gameOverWrapper.classList.add('show');
+    playAgainTimeWrapper.innerHTML = playAgainTime;
+  } else {
+    setTimeout(() => {
+      gameOverWrapper.classList.add('show');
+      playAgainTimeWrapper.innerHTML = playAgainTime;
+    }, 3000);
+  }
 }
 
 const setCookie = (cname, cvalue, exdays = 1) => {
@@ -69,24 +79,17 @@ if (!getCookie('game-over')) {
         const imageWrapper = document.querySelector('.image-wrapper');
         if (data) {
           imageWrapper.classList.add('correct');
-          const dishTitle = document.querySelector('.dish-title');
-          dishTitle.classList.add('showing');
+          handleEndGame();
 
           // call next random dish
           // setTimeout(() => {
           //   getNextDish();
           // }, 2000);
-
-
-          // set cookie to wait till tomorrow
-          handleEndGame();
-
-
         } else {
           const guessesLeft = document.querySelector('.guesses-left span');
           const n = parseInt(guessesLeft.innerHTML) - 1;
           guessesLeft.innerHTML = n;
-          handleIncorrectAnswers(n);
+          handleIncorrectAnswers(n); // handleEndGame called here
 
           imageWrapper.classList.add('incorrect');
           if (n != 0) {
@@ -100,7 +103,7 @@ if (!getCookie('game-over')) {
   });
 
 } else { 
-  handleEndGame();
+  handleEndGame(true);
 }
 
 
