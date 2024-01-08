@@ -65,7 +65,7 @@ if (!getCookie('game-over')) {
     e.preventDefault();
     const country = e.target.elements.country.value;
     const id = e.target.elements.id.value;
-    fetch('http://localhost:8081/check-country', {
+    fetch('https://cuisine-quest.vercel.app/check-country', {
       method: 'POST',
       body: JSON.stringify({ country: country, id: id }),
       headers: {
