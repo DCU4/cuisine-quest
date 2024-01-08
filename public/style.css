@@ -21,6 +21,9 @@ body {
   background: linear-gradient(115deg, var(--main-bg-color) 40%, #333 100%);
   color: var(--main-text-color);
   height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 img {
