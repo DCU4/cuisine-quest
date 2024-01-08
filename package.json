@@ -5,7 +5,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node index.js"
   },
   "author": "Dylan Connor",
   "license": "ISC",
