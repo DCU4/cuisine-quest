@@ -11,6 +11,7 @@
 
 html {
   font-size: 18px;
+  height: 100%;
 }
 
 body {
@@ -19,7 +20,7 @@ body {
   background: var(--main-bg-color);
   background: linear-gradient(115deg, var(--main-bg-color) 40%, #333 100%);
   color: var(--main-text-color);
-  height: 100vh;
+  height: 100%;
 }
 
 img {
