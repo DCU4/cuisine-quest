@@ -55,7 +55,7 @@ async function checkCountry(countryInput="", id="") {
   
   if(entries.total != 0) {
 
-    clientManagement.getSpace(credentials.space)
+    clientManagement.getSpace(process.env.space ? process.env.space : credentials.space)
     .then((space) => space.getEnvironment('master'))
     .then((environment) => environment.getEntry(id))
     .then((entry) => {
@@ -86,8 +86,7 @@ app.get('/', async (req, res) => {
       const img = data[randomIndex].fields.image;
       const id = data[randomIndex].sys.id;
       tips.push(tipOne, tipTwo, tipThree)
-
-      // TODO: send tips
+      
       res.render('index', {img: img, id: id, tips: tips})
     } else {
       res.render('index', {img: '', id: ''})
