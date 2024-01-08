@@ -9,10 +9,9 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <header>
+    <!-- <header>
       <p>Menu</p>
-      <!-- <ul></ul> -->
-    </header>
+    </header> -->
     <main>
       <h1>What country is this dish from?</h1>
       <div class="image-wrapper">
@@ -30,13 +29,15 @@
       <div class="tips-list">
         <ul>
           <% tips.forEach((tip, i) => { %>
-          <li class="tip tip-<%- i -%>"><%- tip -%></li>
+            <% if (tip) { %>
+              <li class="tip tip-<%- i -%>"><%- tip -%></li>
+            <% } %>
           <% }); %>
         </ul>
       </div>
       <div class="game-over">
         <h2>Your daily game is complete</h2>
-        <p>You can play again in around <span>24 hours</span></p>
+        <p>You can play again <span>in 24 hours</span></p>
       </div>
     </main>
     <script src="main.js" async defer></script>
