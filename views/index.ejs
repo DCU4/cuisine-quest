@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Meal Map</title>
+    <meta name="description" content="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- <header>
+      <p>Menu</p>
+    </header> -->
+    <main>
+      <h1>What country is this dish from?</h1>
+      <div class="image-wrapper">
+        <p class="dish-title"><%- img.fields.title -%></p>
+        <img src="<%- img.fields.file.url -%>?fit=fill&w=720&h=720" alt="<%- img.fields.title -%>" />
+      </div>
+      <form id="country-guesser">
+        <input autocomplete="off" type="text" name="country">
+        <input type="hidden" name="id" value="<%- id -%>">
+        <button>submit</button>
+      </form>
+      <div class="guesses-left">
+        <p>You have <span>5</span> guesses left.</p>
+      </div>
+      <div class="tips-list">
+        <ul>
+          <% tips.forEach((tip, i) => { %>
+            <% if (tip) { %>
+              <li class="tip tip-<%- i -%>"><%- tip -%></li>
+            <% } %>
+          <% }); %>
+        </ul>
+      </div>
+      <div class="game-over">
+        <h2>Your daily game is complete</h2>
+        <p>You can play again <span>in 24 hours</span></p>
+      </div>
+    </main>
+    <script src="main.js" async defer></script>
+  </body>
+</html>

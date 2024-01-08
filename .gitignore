@@ -1,0 +1,9 @@
+credentials.json
+.DS_Store
+package-lock.json
+node_modules*
+app-test.js
+client-test.js
+foodlist.txt
+management.js
+.env
