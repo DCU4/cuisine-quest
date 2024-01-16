@@ -55,6 +55,11 @@ main {
   max-width: 400px;
 }
 
+main header {
+  padding-bottom: 0;
+  text-align: center;
+}
+
 header {
   padding-bottom: .5rem;
 }
