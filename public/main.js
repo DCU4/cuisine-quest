@@ -1,6 +1,32 @@
 const gameOverWrapper = document.querySelector('.game-over');
 const playAgainTimeWrapper = document.querySelector('.game-over p span');
 
+const setCookie = (cname, cvalue, exdays = 1) => {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  var currentHour = d.getHours();
+  var currentMinute = d.getMinutes();
+  document.cookie = `play-again-time=${d.toDateString()} ${currentHour}:${currentMinute}`;
+}
+
+const getCookie = (cname) => {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      console.log(document.cookie);
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
 const handleIncorrectAnswers = (n) => {
   const tips = document.querySelectorAll('.tip');
   const tip = tips[tips.length - n]
@@ -30,36 +56,30 @@ const handleEndGame = (onLoad = false) => {
   }
 }
 
-const setCookie = (cname, cvalue, exdays = 1) => {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  var expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-  var currentHour = d.getHours();
-  var currentMinute = d.getMinutes();
-  document.cookie = `play-again-time=${d.toDateString()} ${currentHour}:${currentMinute}`;
+const searchFoodImage = () => {
+  const dishTitle = document.querySelector('.dish-title');
+  const url = `https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyDQGvc77DU8f_BIP11vSI2jkKW6tgoG4Yo&cx=b79a49e5fe1f940d0&q=${dishTitle.innerText}&searchType=image&imgSize=huge`;
+  fetch(url)
+  .then(res => {
+    return res.json();
+  })
+  .then(data => {
+    const imageWrapper = document.querySelector('.image-wrapper');
+    const imgUrl = data.items[0].link;
+    const img = new Image();
+    img.src = imgUrl;
+    imageWrapper.appendChild(img);
+  })
+  .catch(err => console.log(err));
 }
 
-const getCookie = (cname) => {
-  var name = cname + "=";
-  var ca = document.cookie.split(';');
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      console.log(document.cookie);
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
+
 
 // init
 if (!getCookie('game-over')) {
- 
 
+  searchFoodImage();
+ 
   const form = document.querySelector('#country-guesser');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
