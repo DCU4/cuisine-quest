@@ -13,8 +13,10 @@
       <p>Menu</p>
     </header> -->
     <main>
-      <h1>Cuisine Quest!</h1>
-      <p>What country is this dish from?</p>
+      <header>
+        <h1>Cuisine Quest!</h1>
+        <p>What country is this dish from?</p>
+      </header>
       <div class="image-wrapper">
         <p class="dish-title"><%- name -%></p>
         <% if(img) { %>
@@ -22,7 +24,7 @@
         <% } %>
       </div>
       <form id="country-guesser">
-        <input autocomplete="off" type="text" name="country">
+        <input autocomplete="off" type="text" name="country" required>
         <input type="hidden" name="id" value="<%- id -%>">
         <button>submit</button>
       </form>
