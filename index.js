@@ -84,10 +84,11 @@ app.get('/', async (req, res) => {
       const randomIndex = Math.floor(Math.random() * data.length);
       const { tipOne, tipTwo, tipThree } = data[randomIndex].fields;
       const img = data[randomIndex].fields.image;
+      const name = data[randomIndex].fields.name;
       const id = data[randomIndex].sys.id;
       tips.push(tipOne, tipTwo, tipThree)
       
-      res.render('index', {img: img, id: id, tips: tips})
+      res.render('index', {name: name, img: img, id: id, tips: tips})
     } else {
       res.render('index', {img: '', id: ''})
     }
@@ -106,7 +107,8 @@ app.get('/new-dish', async (req, res) => {
     if(data.length > 0){
       const img = data[randomIndex].fields.image;
       const id = data[randomIndex].sys.id;
-      res.json({img: img, id: id})
+      const name = data[randomIndex].fields.name;
+      res.render('index', {name: name, img: img, id: id})
     } else {
       res.send(false);
     }
