@@ -45,7 +45,7 @@ const handleEndGame = (onLoad = false) => {
   dishTitle.classList.add('showing');
   const playAgainTime = getCookie('play-again-time');
 
-  if(onLoad){
+  if (onLoad) {
     gameOverWrapper.classList.add('show');
     playAgainTimeWrapper.innerHTML = playAgainTime;
   } else {
@@ -60,17 +60,17 @@ const searchFoodImage = () => {
   const dishTitle = document.querySelector('.dish-title');
   const url = `https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyDQGvc77DU8f_BIP11vSI2jkKW6tgoG4Yo&cx=b79a49e5fe1f940d0&q=${dishTitle.innerText}&searchType=image&imgSize=huge`;
   fetch(url)
-  .then(res => {
-    return res.json();
-  })
-  .then(data => {
-    const imageWrapper = document.querySelector('.image-wrapper');
-    const imgUrl = data.items[0].link;
-    const img = new Image();
-    img.src = imgUrl;
-    imageWrapper.appendChild(img);
-  })
-  .catch(err => console.log(err));
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      const imageWrapper = document.querySelector('.image-wrapper');
+      const imgUrl = data.items[0].link;
+      const img = new Image();
+      img.src = imgUrl;
+      imageWrapper.appendChild(img);
+    })
+    .catch(err => console.log(err));
 }
 
 
@@ -79,50 +79,52 @@ const searchFoodImage = () => {
 if (!getCookie('game-over')) {
 
   searchFoodImage();
- 
+
   const form = document.querySelector('#country-guesser');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const country = e.target.elements.country.value;
     const id = e.target.elements.id.value;
-    fetch('https://cuisine-quest.vercel.app/check-country', {
-      method: 'POST',
-      body: JSON.stringify({ country: country, id: id }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(async (res) => {
-        return res.json();
+    if (country != '') {
+      fetch('https://cuisine-quest.vercel.app/check-country', {
+        method: 'POST',
+        body: JSON.stringify({ country: country, id: id }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
       })
-      .then(data => {
-        const imageWrapper = document.querySelector('.image-wrapper');
-        if (data) {
-          imageWrapper.classList.add('correct');
-          handleEndGame();
+        .then(async (res) => {
+          return res.json();
+        })
+        .then(data => {
+          const imageWrapper = document.querySelector('.image-wrapper');
+          if (data) {
+            imageWrapper.classList.add('correct');
+            handleEndGame();
 
-          // call next random dish
-          // setTimeout(() => {
-          //   getNextDish();
-          // }, 2000);
-        } else {
-          const guessesLeft = document.querySelector('.guesses-left span');
-          const n = parseInt(guessesLeft.innerHTML) - 1;
-          guessesLeft.innerHTML = n;
-          handleIncorrectAnswers(n); // handleEndGame called here
+            // call next random dish
+            // setTimeout(() => {
+            //   getNextDish();
+            // }, 2000);
+          } else {
+            const guessesLeft = document.querySelector('.guesses-left span');
+            const n = parseInt(guessesLeft.innerHTML) - 1;
+            guessesLeft.innerHTML = n;
+            handleIncorrectAnswers(n); // handleEndGame called here
 
-          imageWrapper.classList.add('incorrect');
-          if (n != 0) {
-            setTimeout(() => {
-              imageWrapper.classList.remove('incorrect');
-            }, 1500);
+            imageWrapper.classList.add('incorrect');
+            if (n != 0) {
+              setTimeout(() => {
+                imageWrapper.classList.remove('incorrect');
+              }, 1500);
+            }
           }
-        }
-      })
-      .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
+    }
   });
 
-} else { 
+} else {
   handleEndGame(true);
 }
 
