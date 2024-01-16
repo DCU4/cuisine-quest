@@ -1,6 +1,8 @@
 :root {
-  --main-bg-color: #444;
-  --main-text-color: #d4d4d4;
+  /* --main-bg-color: #444; */
+  /* --main-text-color: #d4d4d4; */
+  --main-bg-color: #074b4c;
+  --main-text-color: #eae5de;
 }
 
 * {
@@ -18,12 +20,7 @@ body {
   padding: 1rem;
   font-family: 'Avenir', sans-serif;
   background: var(--main-bg-color);
-  /* background: linear-gradient(115deg, var(--main-bg-color) 40%, #333 100%); */
   color: var(--main-text-color);
-  /* height: 100%;
-  margin: 0;
-  background-repeat: no-repeat;
-  background-attachment: fixed; */
 }
 
 img {
