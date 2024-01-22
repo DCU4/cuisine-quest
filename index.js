@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import contentful from 'contentful';
 import contentfulManagament from 'contentful-management';
+import { get } from 'http';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -46,6 +47,14 @@ async function getRandomDish() {
   return entries.items
 }
 
+async function getCountry(id="") {
+  const entries = await client.getEntries({ 
+    content_type: 'dish',
+    'sys.id': id
+  });
+  return entries.items
+}
+
 async function checkCountry(countryInput="", id="") {
   const entries = await client.getEntries({ 
     content_type: 'dish',
@@ -78,7 +87,6 @@ async function checkCountry(countryInput="", id="") {
 app.get('/', async (req, res) => {
   if (res.statusCode === 200) {
     const data = await getRandomDish();
-    console.log(data);
     if(data) {
       const tips = [];
       const randomIndex = Math.floor(Math.random() * data.length);
@@ -121,10 +129,26 @@ app.get('/new-dish', async (req, res) => {
 app.post('/check-country', async (req, res) => {
   try {
     const { country, id } = req.body;
-    console.log('Received request:', country);
     const response = await checkCountry(country, id);
     if (response) {
       res.send(true)
+    } else {
+      res.send(false)
+    }
+
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+app.post('/get-country', async (req, res) => {
+  try {
+    const { id } = req.body;
+    const response = await getCountry(id);
+    console.log(response);
+    if (response) {
+      res.json({name: response[0].fields.name, country: response[0].fields.country})
+      // res.send(true)
     } else {
       res.send(false)
     }
