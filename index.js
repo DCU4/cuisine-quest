@@ -94,9 +94,17 @@ app.get('/', async (req, res) => {
       const img = data[randomIndex].fields.image;
       const name = data[randomIndex].fields.name;
       const id = data[randomIndex].sys.id;
-      tips.push(tipOne, tipTwo, tipThree)
-      
-      res.render('index', {name: name, img: img, id: id, tips: tips})
+      tips.push(tipOne, tipTwo, tipThree);
+      const selectList = data.map(x => x.fields.country);
+
+      res.render('index', {
+        name: name, 
+        img: img, 
+        id: id, 
+        tips: tips,
+        selectList: selectList
+      });
+
     } else {
       res.render('index', {img: '', id: ''})
     }
