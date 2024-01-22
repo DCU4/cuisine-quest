@@ -44,7 +44,7 @@ const handleEndGame = async (onLoad = false, id = "") => {
 
   try {
     if (!foodCountry) {
-      const response = await fetch('http://localhost:8081/get-country', {
+      const response = await fetch('https://cuisine-quest.vercel.app/get-country', {
         method: 'POST',
         body: JSON.stringify({ id: id }),
         headers: {
