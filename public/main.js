@@ -20,7 +20,6 @@ const getCookie = (cname) => {
       c = c.substring(1);
     }
     if (c.indexOf(name) == 0) {
-      console.log(document.cookie);
       return c.substring(name.length, c.length);
     }
   }
@@ -33,28 +32,53 @@ const handleIncorrectAnswers = (n) => {
   if (tip) {
     tip.classList.add('show');
   }
-  // end game at n == 0 - set cookie to wait till tomorrow
-  if (n == 0) {
-    handleEndGame();
-  }
 }
 
-const handleEndGame = (onLoad = false) => {
-  setCookie('game-over', true, 1);
+const handleEndGame = async (onLoad = false, id = "") => {
   const dishTitle = document.querySelector('.dish-title');
   dishTitle.classList.add('showing');
+  
+  const foodCountry = getCookie('food-country');
+  const foodName = getCookie('food-name');
   const playAgainTime = getCookie('play-again-time');
 
-  if (onLoad) {
-    gameOverWrapper.classList.add('show');
-    playAgainTimeWrapper.innerHTML = playAgainTime;
-  } else {
-    setTimeout(() => {
+  try {
+    if (!foodCountry) {
+      const response = await fetch('http://localhost:8081/get-country', {
+        method: 'POST',
+        body: JSON.stringify({ id: id }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      const data = await response.json();
+      console.log(data);
+      if (data){
+        setCookie('food-country', data.country, 1);
+        setCookie('food-name', data.name, 1);
+        dishTitle.insertAdjacentHTML('afterend', `<p>${data.country}</p>`);
+        playAgainTimeWrapper.innerHTML = playAgainTime;
+        playAgainTimeWrapper.insertAdjacentHTML('afterend', `<p>Today's Answer: ${data.country}, Cuisine: ${data.name}</p>`);
+      }
+    }
+
+    if (onLoad) {
       gameOverWrapper.classList.add('show');
       playAgainTimeWrapper.innerHTML = playAgainTime;
-    }, 3000);
+      playAgainTimeWrapper.insertAdjacentHTML('afterend', `<p>Today's Answer: ${foodCountry}, Cuisine: ${foodName}</p>`);
+    } else {
+      setCookie('game-over', true, 1);
+      setTimeout(() => {
+        gameOverWrapper.classList.add('show');
+        playAgainTimeWrapper.innerHTML = playAgainTime;
+      }, 3000);
+    }
+  } catch (err) {
+    console.log(err);
   }
 }
+
 
 const searchFoodImage = () => {
   const dishTitle = document.querySelector('.dish-title');
@@ -93,14 +117,14 @@ if (!getCookie('game-over')) {
           'Content-Type': 'application/json'
         },
       })
-        .then(async (res) => {
+        .then((res) => {
           return res.json();
         })
         .then(data => {
           const imageWrapper = document.querySelector('.image-wrapper');
           if (data) {
             imageWrapper.classList.add('correct');
-            handleEndGame();
+            handleEndGame(false, id);
 
             // call next random dish
             // setTimeout(() => {
@@ -110,13 +134,16 @@ if (!getCookie('game-over')) {
             const guessesLeft = document.querySelector('.guesses-left span');
             const n = parseInt(guessesLeft.innerHTML) - 1;
             guessesLeft.innerHTML = n;
-            handleIncorrectAnswers(n); // handleEndGame called here
+            handleIncorrectAnswers(n);
 
             imageWrapper.classList.add('incorrect');
             if (n != 0) {
               setTimeout(() => {
                 imageWrapper.classList.remove('incorrect');
               }, 1500);
+            } else {
+              // end game at n == 0 - set cookie to wait till tomorrow
+              handleEndGame(false, id);
             }
           }
         })
