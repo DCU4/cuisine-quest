@@ -37,7 +37,7 @@ const handleIncorrectAnswers = (n) => {
 const handleEndGame = async (onLoad = false, id = "") => {
   const dishTitle = document.querySelector('.dish-title');
   dishTitle.classList.add('showing');
-  
+
   const foodCountry = getCookie('food-country');
   const foodName = getCookie('food-name');
   const playAgainTime = getCookie('play-again-time');
@@ -54,7 +54,7 @@ const handleEndGame = async (onLoad = false, id = "") => {
 
       const data = await response.json();
       console.log(data);
-      if (data){
+      if (data) {
         setCookie('food-country', data.country, 1);
         setCookie('food-name', data.name, 1);
         dishTitle.insertAdjacentHTML('afterend', `<p>${data.country}</p>`);
@@ -98,11 +98,39 @@ const searchFoodImage = () => {
 }
 
 
+const handleOnChange = () => {
+  const options = document.querySelectorAll('#select-list li');
+  const inputValue = document.querySelector('input[name="country"]').value.toLowerCase();
+  options.forEach(result => {
+    console.log(result)
+    if (result.innerHTML.toLowerCase().includes(inputValue)) {
+      result.style.display = 'block';
+    } else {
+      result.style.display = 'none';
+    }
+  });
+}
+
+const handleOpenInput = () => {
+  const selectList = document.querySelector('#select-list');
+  const input = document.querySelector('input[name="country"]');
+  input.addEventListener('keyup', handleOnChange);
+  input.addEventListener('focus', () => {
+    selectList.classList.add('open');
+  });
+  input.addEventListener('blur', () => {
+    selectList.classList.remove('open');
+  });
+}
+
 
 // init
+
 if (!getCookie('game-over')) {
 
   searchFoodImage();
+
+  // handleOpenInput();
 
   const form = document.querySelector('#country-guesser');
   form.addEventListener('submit', (e) => {
