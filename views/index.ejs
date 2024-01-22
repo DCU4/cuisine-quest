@@ -24,7 +24,17 @@
         <% } %>
       </div>
       <form id="country-guesser">
-        <input autocomplete="off" type="text" name="country" required>
+        <div class="input-wrapper">
+          <input autocomplete="off" type="text" name="country" required>
+          <ul id="select-list">
+            <% selectList.forEach((option, i) => { %>
+              <% if (option) { %>
+                <li class="option option-<%- i -%>"><%- option -%></li>
+              <% } %>
+            <% }); %>
+          </ul>
+        </div>
+     
         <input type="hidden" name="id" value="<%- id -%>">
         <button>submit</button>
       </form>
@@ -42,7 +52,7 @@
       </div>
       <div class="game-over">
         <h2>Your daily game is complete</h2>
-        <p>You can play again <span>in 24 hours</span></p>
+        <p>You can play again on <span></span></p>
       </div>
     </main>
     <script src="main.js" async defer></script>
