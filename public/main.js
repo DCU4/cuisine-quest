@@ -26,6 +26,23 @@ const getCookie = (cname) => {
   return "";
 }
 
+const searchFoodImage = () => {
+  const dishTitle = document.querySelector('.dish-title');
+  const url = `https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyDQGvc77DU8f_BIP11vSI2jkKW6tgoG4Yo&cx=b79a49e5fe1f940d0&q=${dishTitle.innerText}&searchType=image&imgSize=huge`;
+  fetch(url)
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      const imageWrapper = document.querySelector('.image-wrapper');
+      const imgUrl = data.items[0].link;
+      const img = new Image();
+      img.src = imgUrl;
+      imageWrapper.appendChild(img);
+    })
+    .catch(err => console.log(err));
+}
+
 const handleIncorrectAnswers = (n) => {
   const tips = document.querySelectorAll('.tip');
   const tip = tips[tips.length - n]
@@ -78,25 +95,6 @@ const handleEndGame = async (onLoad = false, id = "") => {
     console.log(err);
   }
 }
-
-
-const searchFoodImage = () => {
-  const dishTitle = document.querySelector('.dish-title');
-  const url = `https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyDQGvc77DU8f_BIP11vSI2jkKW6tgoG4Yo&cx=b79a49e5fe1f940d0&q=${dishTitle.innerText}&searchType=image&imgSize=huge`;
-  fetch(url)
-    .then(res => {
-      return res.json();
-    })
-    .then(data => {
-      const imageWrapper = document.querySelector('.image-wrapper');
-      const imgUrl = data.items[0].link;
-      const img = new Image();
-      img.src = imgUrl;
-      imageWrapper.appendChild(img);
-    })
-    .catch(err => console.log(err));
-}
-
 
 const handleOnChange = () => {
   const options = document.querySelectorAll('#select-list li');
