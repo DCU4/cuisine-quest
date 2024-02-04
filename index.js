@@ -81,10 +81,10 @@ async function checkCountry(countryInput="", id="") {
     .then((entry) => { 
       console.log('postupdate '+entry)
       entry.publish();
+      return true;
     })
     .catch((err) => console.log(err));
     
-    return true;
   } else {
     return false;
   }
