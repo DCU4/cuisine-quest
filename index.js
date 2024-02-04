@@ -62,6 +62,8 @@ async function checkCountry(countryInput="", id="") {
     'query': countryInput
   });
   
+  console.log(entries.total)
+  console.log(entries)
   if(entries.total != 0) {
 
     clientManagement.getSpace(process.env.space ? process.env.space : credentials.space)
@@ -72,6 +74,7 @@ async function checkCountry(countryInput="", id="") {
       return entry.update();
     })
     .then((entry) => {
+      console.log(entry)
       entry.publish();
     })
     .catch(console.error);
