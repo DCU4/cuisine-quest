@@ -64,6 +64,7 @@ async function checkCountry(countryInput="", id="") {
   
   console.log(entries.total)
   console.log(entries)
+  console.log(entries.total != 0)
   if(entries.total != 0) {
 
     console.log('clientManagement')
