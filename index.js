@@ -62,25 +62,22 @@ async function checkCountry(countryInput="", id="") {
     'query': countryInput
   });
   
-  console.log(entries.total)
-  console.log(entries)
-  console.log(entries.total != 0)
   if(entries.total != 0) {
 
     const entryUpdated = await clientManagement.getSpace(process.env.space ? process.env.space : credentials.space)
-    .then((space) => space.getEnvironment('master'))
-    .then((environment) => environment.getEntry(id))
-    .then((entry) => {
-      entry.fields.userAnswered['en-US'] = true;
-      console.log('preupdate '+entry)
-      return entry.update();
-    })
-    .then((entry) => { 
-      console.log('postupdate '+entry)
-      entry.publish();
-      return true;
-    })
-    .catch((err) => console.log(err));
+      .then((space) => space.getEnvironment('master'))
+      .then((environment) => environment.getEntry(id))
+      .then((entry) => {
+        entry.fields.userAnswered['en-US'] = true;
+        console.log('preupdate '+entry)
+        return entry.update();
+      })
+      .then((entry) => { 
+        console.log('postupdate '+entry)
+        entry.publish();
+        return true;
+      })
+      .catch((err) => console.log(err));
 
     if(entryUpdated) {
       return true;
