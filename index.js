@@ -67,10 +67,7 @@ async function checkCountry(countryInput="", id="") {
   console.log(entries.total != 0)
   if(entries.total != 0) {
 
-    console.log('clientManagement '+id)
-    console.log(process.env.space)
-
-    clientManagement.getSpace(process.env.space ? process.env.space : credentials.space)
+    const entryUpdated = await clientManagement.getSpace(process.env.space ? process.env.space : credentials.space)
     .then((space) => space.getEnvironment('master'))
     .then((environment) => environment.getEntry(id))
     .then((entry) => {
@@ -84,6 +81,12 @@ async function checkCountry(countryInput="", id="") {
       return true;
     })
     .catch((err) => console.log(err));
+
+    if(entryUpdated) {
+      return true;
+    } else {
+      console.log('err entryUpdated')
+    }
     
   } else {
     return false;
