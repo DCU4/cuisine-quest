@@ -67,17 +67,19 @@ async function checkCountry(countryInput="", id="") {
   console.log(entries.total != 0)
   if(entries.total != 0) {
 
-    console.log('clientManagement')
+    console.log('clientManagement '+id)
+    console.log(process.env.space)
 
     clientManagement.getSpace(process.env.space ? process.env.space : credentials.space)
     .then((space) => space.getEnvironment('master'))
     .then((environment) => environment.getEntry(id))
     .then((entry) => {
       entry.fields.userAnswered['en-US'] = true;
+      console.log('preupdate '+entry)
       return entry.update();
     })
-    .then((entry) => {
-      console.log(entry)
+    .then((entry) => { 
+      console.log('postupdate '+entry)
       entry.publish();
     })
     .catch((err) => console.log(err));
