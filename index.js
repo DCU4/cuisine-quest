@@ -66,6 +66,8 @@ async function checkCountry(countryInput="", id="") {
   console.log(entries)
   if(entries.total != 0) {
 
+    console.log('clientManagement')
+
     clientManagement.getSpace(process.env.space ? process.env.space : credentials.space)
     .then((space) => space.getEnvironment('master'))
     .then((environment) => environment.getEntry(id))
@@ -77,7 +79,7 @@ async function checkCountry(countryInput="", id="") {
       console.log(entry)
       entry.publish();
     })
-    .catch(console.error);
+    .catch((err) => console.log(err));
     
     return true;
   } else {
