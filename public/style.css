@@ -177,6 +177,7 @@ form #select-list li {
 }
 
 p.dish-title {
+  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -194,6 +195,7 @@ p.dish-title {
 }
 
 p.dish-title.showing {
+  display: block;
   transform: translateY(0);
 }
 
