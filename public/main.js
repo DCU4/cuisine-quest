@@ -1,5 +1,6 @@
 const gameOverWrapper = document.querySelector('.game-over');
 const playAgainTimeWrapper = document.querySelector('.game-over p span');
+const apiUrl = window.location.origin;
 
 const setCookie = (cname, cvalue, exdays = 1) => {
   var d = new Date();
@@ -61,7 +62,7 @@ const handleEndGame = async (onLoad = false, id = "") => {
 
   try {
     if (!foodCountry) {
-      const response = await fetch('https://cuisine-quest.vercel.app/get-country', {
+      const response = await fetch(`${apiUrl}/get-country`, {
         method: 'POST',
         body: JSON.stringify({ id: id }),
         headers: {
@@ -72,9 +73,8 @@ const handleEndGame = async (onLoad = false, id = "") => {
       const data = await response.json();
       console.log(data);
       if (data) {
-        setCookie('food-country', data.country, 1);
-        setCookie('food-name', data.name, 1);
-        dishTitle.insertAdjacentHTML('afterend', `<p>${data.country}</p>`);
+        // setCookie('food-country', data.country, 1);
+        // setCookie('food-name', data.name, 1);
         playAgainTimeWrapper.innerHTML = playAgainTime;
         playAgainTimeWrapper.insertAdjacentHTML('afterend', `<p>Today's Answer: ${data.country}, Cuisine: ${data.name}</p>`);
       }
@@ -85,7 +85,7 @@ const handleEndGame = async (onLoad = false, id = "") => {
       playAgainTimeWrapper.innerHTML = playAgainTime;
       playAgainTimeWrapper.insertAdjacentHTML('afterend', `<p>Today's Answer: ${foodCountry}, Cuisine: ${foodName}</p>`);
     } else {
-      setCookie('game-over', true, 1);
+      // setCookie('game-over', true, 1);
       setTimeout(() => {
         gameOverWrapper.classList.add('show');
         playAgainTimeWrapper.innerHTML = playAgainTime;
@@ -136,7 +136,7 @@ if (!getCookie('game-over')) {
     const country = e.target.elements.country.value;
     const id = e.target.elements.id.value;
     if (country != '') {
-      fetch('https://cuisine-quest.vercel.app/check-country', {
+      fetch(`${apiUrl}/check-country`, {
         method: 'POST',
         body: JSON.stringify({ country: country, id: id }),
         headers: {
