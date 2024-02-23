@@ -7,5 +7,4 @@ client-test.js
 foodlist.txt
 management.js
 .env
-import.json
-new-import.json
+import*
