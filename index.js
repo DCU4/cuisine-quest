@@ -69,11 +69,11 @@ async function checkCountry(countryInput="", id="") {
       .then((environment) => environment.getEntry(id))
       .then((entry) => {
         entry.fields.userAnswered['en-US'] = true;
-        console.log('preupdate '+entry)
+        // console.log('preupdate '+entry)
         return entry.update();
       })
       .then((entry) => { 
-        console.log('postupdate '+entry)
+        // console.log('postupdate '+entry)
         entry.publish();
         return true;
       })
