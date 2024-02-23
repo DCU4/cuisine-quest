@@ -58,6 +58,11 @@ const handleIncorrectAnswers = (n) => {
 // show userAnswered true / total * 100 ?
 const handleStats = () => {
 
+  // get totals and set cookie
+
+
+  // display on front end
+
 }
 
 const handleEndGame = async (onLoad = false, id = "") => {
