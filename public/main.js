@@ -52,6 +52,14 @@ const handleIncorrectAnswers = (n) => {
   }
 }
 
+// TODO: figure out stats and cookie
+// do i even need stats here? just x/255 ? show correct answer number?
+// userAnswered true = correctly
+// show userAnswered true / total * 100 ?
+const handleStats = () => {
+
+}
+
 const handleEndGame = async (onLoad = false, id = "") => {
   const dishTitle = document.querySelector('.dish-title');
   dishTitle.classList.add('showing');
@@ -73,8 +81,13 @@ const handleEndGame = async (onLoad = false, id = "") => {
       const data = await response.json();
       console.log(data);
       if (data) {
-        // setCookie('food-country', data.country, 1);
-        // setCookie('food-name', data.name, 1);
+        const d = new Date();
+        const currentHour = d.getHours();
+        const currentMinute = d.getMinutes();
+        const cookieValue = `${d.toDateString()} ${currentHour}:${currentMinute}`;
+        setCookie('play-again-time', cookieValue, 1);
+        setCookie('food-country', data.country, 1);
+        setCookie('food-name', data.name, 1);
         playAgainTimeWrapper.innerHTML = playAgainTime;
         playAgainTimeWrapper.insertAdjacentHTML('afterend', `<p>Today's Answer: ${data.country}, Cuisine: ${data.name}</p>`);
       }
@@ -85,7 +98,7 @@ const handleEndGame = async (onLoad = false, id = "") => {
       playAgainTimeWrapper.innerHTML = playAgainTime;
       playAgainTimeWrapper.insertAdjacentHTML('afterend', `<p>Today's Answer: ${foodCountry}, Cuisine: ${foodName}</p>`);
     } else {
-      // setCookie('game-over', true, 1);
+      setCookie('game-over', true, 1);
       setTimeout(() => {
         gameOverWrapper.classList.add('show');
         playAgainTimeWrapper.innerHTML = playAgainTime;
