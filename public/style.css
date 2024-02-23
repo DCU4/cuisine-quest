@@ -108,6 +108,7 @@ form button::after {
 
 form .input-wrapper {
   position: relative;
+  width: 100%;
 }
 
 form #select-list {
