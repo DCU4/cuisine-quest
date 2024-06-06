@@ -181,6 +181,10 @@ if (!getCookie('game-over')) {
             handleIncorrectAnswers(n);
 
             imageWrapper.classList.add('incorrect');
+
+            // clear input
+            document.querySelector('input[name="country"]').value = '';
+
             if (n != 0) {
               setTimeout(() => {
                 imageWrapper.classList.remove('incorrect');
@@ -189,6 +193,7 @@ if (!getCookie('game-over')) {
               // end game at n == 0 - set cookie to wait till tomorrow
               handleEndGame(false, id);
             }
+            
           }
         })
         .catch(err => console.log(err));
