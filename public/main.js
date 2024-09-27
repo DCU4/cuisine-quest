@@ -139,6 +139,9 @@ const handleOpenInput = () => {
   });
 }
 
+const capitalizeFirstLetter = (string) => {
+  return string[0].toUpperCase() + string.slice(1);
+}
 
 // init
 
@@ -151,7 +154,7 @@ if (!getCookie('game-over')) {
   const form = document.querySelector('#country-guesser');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const country = e.target.elements.country.value;
+    const country = capitalizeFirstLetter(e.target.elements.country.value);
     const id = e.target.elements.id.value;
     if (country != '') {
       fetch(`${apiUrl}/check-country`, {
