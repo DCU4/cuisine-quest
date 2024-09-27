@@ -59,7 +59,8 @@ async function checkCountry(countryInput="", id="") {
   const entries = await client.getEntries({ 
     content_type: 'dish',
     'sys.id': id,
-    'query': countryInput
+    'fields.country': countryInput
+    // 'query': countryInput
   });
   
   if(entries.total != 0) {
