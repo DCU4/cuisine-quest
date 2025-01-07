@@ -140,7 +140,8 @@ const handleOpenInput = () => {
 }
 
 const capitalizeFirstLetter = (string) => {
-  return string[0].toUpperCase() + string.slice(1);
+  const trimmedStr = string.trim();
+  return trimmedStr[0].toUpperCase() + trimmedStr.slice(1);
 }
 
 // init

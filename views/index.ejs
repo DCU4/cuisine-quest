@@ -45,7 +45,7 @@
         <ul>
           <% tips.forEach((tip, i) => { %>
             <% if (tip) { %>
-              <li class="tip tip-<%- i -%>"><%- tip -%></li>
+              <li class="tip tip-<%- i -%>"><%= i === 2 ? 'Famous landmark: ' : '' %><%- tip -%></li>
             <% } %>
           <% }); %>
         </ul>
