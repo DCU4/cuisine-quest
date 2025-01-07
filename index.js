@@ -38,7 +38,7 @@ app.use(cors());
 app.set('view engine', 'ejs');
 
 
-async function getRandomDish() {
+async function getAllDishes() {
   const entries = await client.getEntries({ 
     content_type: 'dish',
     'fields.userAnswered': false
@@ -95,20 +95,21 @@ async function checkCountry(countryInput="", id="") {
 // homepage 
 app.get('/', async (req, res) => {
   if (res.statusCode === 200) {
-    const data = await getRandomDish();
+    const data = await getAllDishes();
     if(data) {
-      const tips = [];
+      // get random dish from data array
       const randomIndex = Math.floor(Math.random() * data.length);
-      const { tipOne, tipTwo, tipThree } = data[randomIndex].fields;
-      const img = data[randomIndex].fields.image;
-      const name = data[randomIndex].fields.name;
+      const { tipOne, tipTwo, tipThree, image, name } = data[randomIndex].fields;
       const id = data[randomIndex].sys.id;
+      const tips = [];
       tips.push(tipOne, tipTwo, tipThree);
+      
+      // get all countries from data array
       const selectList = data.map(x => x.fields.country);
 
       res.render('index', {
         name: name, 
-        img: img, 
+        img: image, 
         id: id, 
         tips: tips,
         selectList: selectList
@@ -123,25 +124,6 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.get('/new-dish', async (req, res) => {
-  if (res.statusCode === 200) {
-    const data = await getRandomDish();
-    const randomIndex = Math.floor(Math.random() * data.length);
-    // console.log(randomIndex);
-    // console.log('new dish', data)
-    if(data.length > 0){
-      const img = data[randomIndex].fields.image;
-      const id = data[randomIndex].sys.id;
-      const name = data[randomIndex].fields.name;
-      res.render('index', {name: name, img: img, id: id})
-    } else {
-      res.send(false);
-    }
-
-  } else {
-    res.sendStatus(404);
-  }
-});
 
 app.post('/check-country', async (req, res) => {
   try {
@@ -207,3 +189,21 @@ app.listen(port, () => {
 //     return false;
 //   }
 // }
+
+// app.get('/new-dish', async (req, res) => {
+//   if (res.statusCode === 200) {
+//     const data = await getAllDishes();
+//     const randomIndex = Math.floor(Math.random() * data.length);
+//     if(data.length > 0){
+//       const img = data[randomIndex].fields.image;
+//       const id = data[randomIndex].sys.id;
+//       const name = data[randomIndex].fields.name;
+//       res.render('index', {name: name, img: img, id: id})
+//     } else {
+//       res.send(false);
+//     }
+
+//   } else {
+//     res.sendStatus(404);
+//   }
+// });
