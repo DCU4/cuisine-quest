@@ -94,33 +94,28 @@ async function checkCountry(countryInput="", id="") {
 
 // homepage 
 app.get('/', async (req, res) => {
-  if (res.statusCode === 200) {
-    const data = await getAllDishes();
-    if(data) {
-      // get random dish from data array
-      const randomIndex = Math.floor(Math.random() * data.length);
-      const { tipOne, tipTwo, tipThree, image, name } = data[randomIndex].fields;
-      const id = data[randomIndex].sys.id;
-      const tips = [];
-      tips.push(tipOne, tipTwo, tipThree);
-      
-      // get all countries from data array
-      const selectList = data.map(x => x.fields.country);
+  const data = await getAllDishes();
+  if(data) {
+    // get random dish from data array
+    const randomIndex = Math.floor(Math.random() * data.length);
+    const { tipOne, tipTwo, tipThree, image, name } = data[randomIndex].fields;
+    const id = data[randomIndex].sys.id;
+    const tips = [];
+    tips.push(tipOne, tipTwo, tipThree);
+    
+    // get all countries from data array
+    const selectList = data.map(x => x.fields.country);
 
-      res.render('index', {
-        name: name, 
-        img: image, 
-        id: id, 
-        tips: tips,
-        selectList: selectList
-      });
-
-    } else {
-      res.render('index', {img: '', id: ''})
-    }
+    res.render('index', {
+      name: name, 
+      img: image, 
+      id: id, 
+      tips: tips,
+      selectList: selectList
+    });
 
   } else {
-    res.sendStatus(404);
+    res.render('index', {img: '', id: ''})
   }
 });
 
