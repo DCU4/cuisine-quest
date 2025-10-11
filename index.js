@@ -104,6 +104,7 @@ app.get('/', async (req, res) => {
     tips.push(tipOne, tipTwo, tipThree);
     
     // get all countries from data array
+    // TODO: check for empty x
     const selectList = data.map(x => x.fields.country);
 
     res.render('index', {
