@@ -118,7 +118,6 @@ const handleOnChange = () => {
   const options = document.querySelectorAll('#select-list li');
   const inputValue = document.querySelector('input[name="country"]').value.toLowerCase();
   options.forEach(result => {
-    console.log(result)
     if (result.innerHTML.toLowerCase().includes(inputValue)) {
       result.style.display = 'block';
     } else {
@@ -130,12 +129,23 @@ const handleOnChange = () => {
 const handleOpenInput = () => {
   const selectList = document.querySelector('#select-list');
   const input = document.querySelector('input[name="country"]');
-  input.addEventListener('keyup', handleOnChange);
-  input.addEventListener('focus', () => {
+  input.addEventListener('keydown', () => {
     selectList.classList.add('open');
   });
-  input.addEventListener('blur', () => {
-    selectList.classList.remove('open');
+  input.addEventListener('keyup', handleOnChange);
+  input.addEventListener('blur', (e) => {
+    setTimeout(() => {
+      selectList.classList.remove('open');
+    }, 250);
+  });
+  
+  const options = document.querySelectorAll('#select-list li');
+  options.forEach(result => {
+    result.addEventListener('click', () => {
+      console.log(result.innerHTML);
+      input.value = result.innerHTML;
+      selectList.classList.remove('open');
+    });
   });
 }
 
@@ -150,7 +160,7 @@ if (!getCookie('game-over')) {
 
   searchFoodImage();
 
-  // handleOpenInput();
+  handleOpenInput();
 
   const form = document.querySelector('#country-guesser');
   form.addEventListener('submit', (e) => {

@@ -26,13 +26,7 @@
       <form id="country-guesser">
         <div class="input-wrapper">
           <input autocomplete="off" type="text" name="country" required>
-          <ul id="select-list">
-            <% selectList.forEach((option, i) => { %>
-              <% if (option) { %>
-                <li class="option option-<%- i -%>"><%- option -%></li>
-              <% } %>
-            <% }); %>
-          </ul>
+          <%- include('partials/country-list') %>
         </div>
      
         <input type="hidden" name="id" value="<%- id -%>">
